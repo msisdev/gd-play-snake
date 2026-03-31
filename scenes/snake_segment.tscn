@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ohwmupug5uy2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83yuc"]
+bg_color = Color(0.4288597, 0.673982, 0.37768632, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.24658787, 0.2465879, 0.24658787, 0.6)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_83yuc"]
+
+[node name="SnakeSegment" type="Node2D" unique_id=1329289147]
+
+[node name="Panel" type="Panel" parent="." unique_id=314961079]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_83yuc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1986976988]
+scale = Vector2(0.97, 0.97)
+shape = SubResource("CircleShape2D_83yuc")

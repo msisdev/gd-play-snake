@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dnhle2qt56uel"]
+
+[ext_resource type="Script" uid="uid://p165y4h8dkyx" path="res://scripts/Snake.cs" id="1_o5qli"]
+
+[node name="Main" type="Node2D" unique_id=1597944100]
+
+[node name="Snake" type="Node2D" parent="." unique_id=929881346]
+script = ExtResource("1_o5qli")
