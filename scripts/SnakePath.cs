@@ -3,16 +3,19 @@ using System.Collections.Generic;
 
 public class SnakePath
 {
-	private List<Vector2> _points = new List<Vector2>();
-	private readonly float _segmentDistance;
+	private List<Vector2>   _points = new List<Vector2>();
+	public Vector2          this[int index] => _points[index];
+	public int              Count => _points.Count;
+	private readonly float  _segDist;
+  private Vector2         _headPoint => _points[0];
 
-	public int Count => _points.Count;
+  // Get the last point
+  public Vector2          Last => _points.Count > 0 ? _points[^1] : Vector2.Zero;
 
-	public Vector2 this[int index] => _points[index];
-
-	public SnakePath(float segmentDistance)
+	public SnakePath(float segDist, Vector2 initialPos)
 	{
-		_segmentDistance = segmentDistance;
+		_segDist = segDist;
+		AddInitialPoint(initialPos);
 	}
 
 	public void AddInitialPoint(Vector2 pos)
@@ -21,23 +24,32 @@ public class SnakePath
 		_points.Add(pos);
 	}
 
-	public void UpdatePath(Vector2 headPos, int bodyCount)
+	public void UpdatePath(Vector2 headNextAt, int bodyCount)
 	{
-		while (_points.Count > 0 && headPos.DistanceTo(_points[0]) >= _segmentDistance)
-		{
-			Vector2 newPoint = _points[0] + (_points[0].DirectionTo(headPos) * _segmentDistance);
-			_points.Insert(0, newPoint);
+    if (_points.Count == 0)
+    {
+      // This is a first point.
+      _points.Add(headNextAt);
+      return;
+    }
 
-			// Trim the points list so it doesn't exceed the number of body segments.
-			while (_points.Count > bodyCount)
-			{
-				_points.RemoveAt(_points.Count - 1);
-			}
-		}
-	}
+    float travelDist = headNextAt.DistanceTo(_headPoint);
 
-	public Vector2 GetLastPoint()
-	{
-		return _points.Count > 0 ? _points[^1] : Vector2.Zero;
+    // If the head moves fast, we should add multiple points.
+    // Iterate for the # of new points to add.
+    for (int i = 0; i < travelDist / _segDist; i++)
+    {
+      // Determine the new point by moving from the head point
+      Vector2 newPoint = _headPoint + (_headPoint.DirectionTo(headNextAt) * _segDist);
+
+      // Add the new point as head point
+      _points.Insert(0, newPoint);
+    }
+
+    // Trim unnecessary points.
+    while (_points.Count > bodyCount)
+    {
+      _points.RemoveAt(_points.Count - 1);
+    }
 	}
 }
