@@ -51,7 +51,14 @@ public partial class Snake : Node2D
 	private void _Grow()
 	{
 		var newSegment = _segmentScene.Instantiate<Node2D>();
-		newSegment.Position = _body.Count > 0 ? _body[^1].Position : _head.Position;
+		if (_body.Count > 0)
+		{
+			newSegment.Position = _body[^1].Position;
+		}
+		else
+		{
+			newSegment.Position = _head.Position;
+		}
 		_body.Add(newSegment);
 		AddChild(newSegment);
 	}
